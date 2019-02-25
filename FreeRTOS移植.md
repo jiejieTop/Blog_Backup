@@ -9,6 +9,7 @@
 FreeRTOS包含Demo例程和内核源码（比较重要，我们就需要提取该目录下的大部分文件）。
  **Source**文件夹里面包含的是FreeRTOS内核的源代码，我们移植FreeRTOS的时候就需要这部分源代码；
 **Demo** 文件夹里面包含了FreeRTOS官方为各个单片机移植好的工程代码，FreeRTOS为了推广自己，会给各种半导体厂商的评估板写好完整的工程程序，这些程序就放在Demo这个目录下，这部分Demo非常有参考价值。
+
 ![demo目录](https://jiejietop.cn/content/images/2019/02/1-1.png)
 
 ### Source文件夹
@@ -24,12 +25,15 @@ portblle文件夹，是与编译器相关的文件夹，在不同的编译器中
 #### 提取源码
 1.	首先在我们的STM32裸机工程模板根目录下新建一个文件夹，命名为“FreeRTOS”，并且在FreeRTOS文件夹下新建两个空文件夹，分别命名为“src”与“port”，src文件夹用于保存FreeRTOS中的核心源文件，也就是我们常说的‘.c文件’，port文件夹用于保存内存管理以及处理器架构相关代码，这些代码FreeRTOS官方已经提供给我们的，直接使用即可，在前面已经说了，FreeRTOS是软件，我们的开发版是硬件，软硬件必须有桥梁来连接，这些与处理器架构相关的代码，可以称之为RTOS硬件接口层，它们位于FreeRTOS/Source/Portable文件夹下。
 2.	打开FreeRTOS V9.0.0源码，在“FreeRTOSv9.0.0\FreeRTOS\Source”目录下找到所有的‘.c文件’，将它们拷贝到我们新建的src文件夹中：
+
 ![拷贝1](https://jiejietop.cn/content/images/2019/02/4.png)
 
 3.	打开FreeRTOS V9.0.0源码，在“FreeRTOSv9.0.0\FreeRTOS\Source\portable”目录下找到“MemMang”文件夹与“RVDS”文件夹，将它们拷贝到我们新建的port文件夹中
+
 ![拷贝2](https://jiejietop.cn/content/images/2019/02/5.png)
 
 4.	打开FreeRTOS V9.0.0源码，在“FreeRTOSv9.0.0\ FreeRTOS\Source”目录下找到“include”文件夹，它是我们需要用到FreeRTOS的一些头文件，将它直接拷贝到我们新建的FreeRTOS文件夹中，完成这一步之后就可以看到我们新建的FreeRTOS文件夹已经有3个文件夹，这3个文件夹就包含FreeRTOS的核心文件，至此，FreeRTOS的源码就提取完成。
+
 ![拷贝3](https://jiejietop.cn/content/images/2019/02/6.png)
 
 #### 添加到工程
@@ -41,10 +45,12 @@ FreeRTOSConfig.h文件是FreeRTOS的工程配置文件，因为FreeRTOS是可以
 然后我们将工程文件中FreeRTOS的内容添加到工程中去，按照已经新建的分组添加我们的FreeRTOS工程源码。
 在FreeRTOS/port分组中添加MemMang文件夹中的文件只需选择其中一个即可，我们选择“heap_4.c”，这是FreeRTOS的一个内存管理源码文件。
 添加完成后：
+
 ![创建过程分组](https://jiejietop.cn/content/images/2019/02/7.png)
 
 ** 添加头文件路径**
 FreeRTOS的源码已经添加到开发环境的组文件夹下面，编译的时候需要为这些源文件指定头文件的路径，不然编译会报错。FreeRTOS的源码里面只有FreeRTOS\include和FreeRTOS\port\RVDS\ARM_CM3这两个文件夹下面有头文件，只需要将这两个头文件的路径在开发环境里面指定即可。同时我们还将FreeRTOSConfig.h这个头文件拷贝到了工程根目录下的user文件夹下，所以user的路径也要加到开发环境里面。
+
 ![添加头文件路径](https://jiejietop.cn/content/images/2019/02/8.png)
 
 ### 修改FreeRTOSConfig.h
